@@ -17,10 +17,10 @@ export default {
         ink: "#0b1712",
       },
       fontFamily: {
-        // confident display/serif for headlines + numbers
-        display: ['Fraunces', 'Georgia', 'serif'],
-        // clean grotesque/sans for body
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        // confident display/serif for headlines + numbers (self-hosted variable)
+        display: ['"Fraunces Variable"', 'Fraunces', 'Georgia', 'serif'],
+        // clean grotesque/sans for body (self-hosted variable)
+        sans: ['"Inter Variable"', 'Inter', 'system-ui', 'sans-serif'],
       },
       letterSpacing: {
         kicker: "0.22em",
