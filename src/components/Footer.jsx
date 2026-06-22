@@ -1,4 +1,4 @@
-import piqWhite from "../assets/piq-white.png";
+import piqLogo from "../assets/piq-horizontal.png";
 import piqMark from "../assets/piq-mark.png";
 
 export default function Footer() {
@@ -14,7 +14,7 @@ export default function Footer() {
       <div className="relative mx-auto max-w-editorial px-6 py-16 lg:px-10">
         <div className="flex flex-col justify-between gap-10 md:flex-row md:items-end">
           <div>
-            <img src={piqWhite} alt="Panther IQ" className="h-8 w-auto" />
+            <img src={piqLogo} alt="Panther IQ" className="h-8 w-auto" />
             <p className="mt-5 max-w-sm text-sm leading-7 text-paper/55">
               The research, engineering, and internal IP studio of Saudi Panther.
               Built in Riyadh, deployed in eu-west-1, governed under Saudi law.

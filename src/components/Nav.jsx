@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import piqWhite from "../assets/piq-white.png";
+import piqLogo from "../assets/piq-horizontal.png";
 
 const LINKS = [
   { label: "Platform", ar: "المنصة", href: "#platform" },
@@ -43,7 +43,7 @@ export default function Nav() {
     >
       <div className="mx-auto flex h-[72px] max-w-editorial items-center justify-between px-6 lg:px-10">
         <a href="#top" className="flex items-center gap-3" aria-label="Panther IQ home">
-          <img src={piqWhite} alt="Panther IQ" className="h-7 w-auto" />
+          <img src={piqLogo} alt="Panther IQ" className="h-9 w-auto" />
         </a>
 
         <nav className="hidden items-center gap-1 md:flex" aria-label="Primary">
