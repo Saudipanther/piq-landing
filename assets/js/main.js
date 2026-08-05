@@ -96,14 +96,15 @@ function animateCounter(element, target) {
     requestAnimationFrame(update);
 }
 
-// Smooth scroll
+// Smooth scroll (offset tracks the floating nav's real height)
 function initSmoothScroll() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
             const target = document.querySelector(this.getAttribute('href'));
             if (target) {
-                const offset = 80;
+                const nav = document.getElementById('mainNav');
+                const offset = (nav ? nav.offsetHeight + nav.getBoundingClientRect().top : 60) + 28;
                 const position = target.getBoundingClientRect().top + window.pageYOffset - offset;
                 window.scrollTo({ top: position, behavior: 'smooth' });
             }

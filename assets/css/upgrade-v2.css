@@ -5,6 +5,13 @@
    Arabic typography moves to Readex Pro with a larger scale.
    ============================================================ */
 
+/* ---------- 0. Base hardening (iOS) ---------- */
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+section[id] { scroll-margin-top: 110px; }
+@supports (min-height: 100svh) {
+    .hero { min-height: 100svh; }
+}
+
 /* ---------- 1. Scroll progress bar ---------- */
 #scroll-progress {
     position: fixed;
@@ -195,6 +202,10 @@
     background: linear-gradient(180deg, #00F5FF, #1A7CFF, #8B5CF6) !important;
     box-shadow: 0 0 16px rgba(26, 124, 255, 0.45);
 }
+/* RTL: keep the step number on the right, same side as the line
+   (rtl.css row-reverses the step, which strands the number on the left) */
+[dir="rtl"] .process-step { flex-direction: row; }
+[dir="rtl"] .step-content { text-align: right; }
 @media (prefers-reduced-motion: no-preference) {
     .step-number { transition: box-shadow 0.4s ease, transform 0.4s ease; }
     .process-step:hover .step-number {
@@ -432,7 +443,16 @@
 /* ---------- 15. Small screens ---------- */
 /* 860px matches the ios-experience tab bar breakpoint */
 @media (max-width: 860px) {
-    #scene-location { bottom: 92px !important; }
+    #scene-location {
+        bottom: calc(92px + env(safe-area-inset-bottom, 0px)) !important;
+        max-width: min(72vw, 320px);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    /* 16px floor stops iOS zoom-on-focus */
+    .form-group input,
+    .form-group textarea { font-size: 16px !important; }
 }
 @media (max-width: 768px) {
     .section .section-header::before { font-size: 84px; opacity: 0.8; }
