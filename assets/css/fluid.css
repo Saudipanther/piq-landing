@@ -132,6 +132,28 @@ html.fluid-reduce #scene-location {
     }
 }
 
+/* ---------- Contact form: deterministic field rhythm ----------
+   The fields inherited line-height: normal, so a textarea sized by
+   rows="4" depended entirely on the font's own metrics — and Readex Pro's
+   are tall. That makes the box height unpredictable across fonts, text
+   scaling, and zoom, and it can end up shorter than the text it holds
+   (min-height was 0, so nothing stopped it). An explicit line-height plus
+   a min-height derived from the same number makes the field always fit
+   its four rows. resize was 'both': dragging it sideways broke the grid. */
+.contact-form { gap: 24px; }
+.contact-form label { margin-bottom: 12px; }
+.contact-form input,
+.contact-form textarea { line-height: 1.55; }
+.contact-form textarea {
+    min-height: calc(1.55em * 4 + 32px);   /* four rows + vertical padding */
+    resize: vertical;
+}
+/* Arabic sits on a taller line, so its four rows need more room */
+[dir="rtl"] .contact-form input,
+[dir="rtl"] .contact-form textarea { line-height: 1.9; }
+[dir="rtl"] .contact-form textarea { min-height: calc(1.9em * 4 + 32px); }
+.contact-form button[type="submit"] { margin-top: 8px; }
+
 /* ---------- Increased contrast: defined edges ---------- */
 @media (prefers-contrast: more) {
     .nav-inner,
