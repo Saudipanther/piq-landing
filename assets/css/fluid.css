@@ -1,0 +1,146 @@
+/* ============================================================
+   PantherIQ — Fluid interface layer (Apple design translation)
+   Response on press, spring-feel easings, materialized chrome,
+   size-specific type tracking, reduced-motion/transparency/contrast.
+   Loads last; overrides earlier layers only where deliberate.
+   ============================================================ */
+
+:root {
+    /* Critically damped settle (no overshoot) — default for UI */
+    --fluid-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    /* Slight overshoot — reserved for surfaces that "arrive" (menu pop) */
+    --fluid-pop: cubic-bezier(0.34, 1.3, 0.64, 1);
+}
+
+/* ---------- Typography: tracking is size-specific ----------
+   Large display text tightens; body stays near 0. Arabic pages
+   keep letter-spacing 0 via upgrade-v2 (connected script). */
+.hero-title {
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+}
+.section-title {
+    letter-spacing: -0.015em;
+}
+
+/* ---------- Response: feedback lives on the press ----------
+   Instant press-in on pointer-down; !important beats the magnetic
+   inline transform because a press must win over a hover effect. */
+.btn-primary:active,
+.btn-ghost:active {
+    transform: scale(0.97) !important;
+    transition: transform 90ms ease-out !important;
+}
+.service-card:active,
+.problem-card:active,
+.trust-card:active,
+.additional-card:active,
+.process-step:active {
+    transform: scale(0.99) !important;
+    transition: transform 120ms ease-out !important;
+}
+.nav-link:active,
+.mobile-link:active,
+.footer-links a:active,
+.about-link:active,
+.contact-item a:active {
+    opacity: 0.55;
+    transition: opacity 60ms ease-out;
+}
+.ios-tab:active {
+    transform: scale(0.94);
+    transition: transform 90ms ease-out;
+}
+
+/* ---------- Mobile menu: materialize, don't pop ----------
+   Enter and exit along the same path, anchored to the trigger
+   (hamburger sits at the inline-end of the nav). */
+.mobile-menu {
+    display: flex !important;
+    flex-direction: column;
+    gap: 16px;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(-10px) scale(0.98);
+    pointer-events: none;
+    background: rgba(13, 17, 23, 0.78);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    backdrop-filter: blur(24px) saturate(160%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+    transform-origin: top right;
+    transition:
+        opacity 0.24s var(--fluid-ease),
+        transform 0.24s var(--fluid-ease),
+        visibility 0s 0.24s;
+}
+[dir="rtl"] .mobile-menu { transform-origin: top left; }
+.mobile-menu.active {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+    transition:
+        opacity 0.32s var(--fluid-pop),
+        transform 0.32s var(--fluid-pop),
+        visibility 0s;
+}
+/* Bright top edge = light catching the material */
+.mobile-menu::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 12px; right: 12px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.22), transparent);
+}
+
+/* ---------- Materials: legibility over glass ---------- */
+.ios-tab { transition: color 0.25s var(--fluid-ease), transform 0.25s var(--fluid-ease); }
+
+/* ---------- Reduced motion: gentler equivalents, not nothing ----------
+   fluid.js sets html.fluid-reduce when prefers-reduced-motion matches;
+   the moving full-viewport layers go away entirely. */
+html.fluid-reduce #video-scene-bg,
+html.fluid-reduce #particleCanvas,
+html.fluid-reduce #floating-blocks,
+html.fluid-reduce #scene-location {
+    display: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+    .mobile-menu,
+    .mobile-menu.active {
+        transition: opacity 200ms ease, visibility 0s;
+        transform: none;
+    }
+    .btn-primary:active,
+    .btn-ghost:active {
+        transform: none !important;
+        opacity: 0.7;
+    }
+}
+
+/* ---------- Reduced transparency: frost the glass solid ---------- */
+@media (prefers-reduced-transparency: reduce) {
+    .nav-inner,
+    .nav.scrolled .nav-inner,
+    .mobile-menu,
+    .ios-tabbar,
+    #scene-location {
+        background: #0D1117 !important;
+        -webkit-backdrop-filter: none !important;
+        backdrop-filter: none !important;
+    }
+}
+
+/* ---------- Increased contrast: defined edges ---------- */
+@media (prefers-contrast: more) {
+    .nav-inner,
+    .mobile-menu,
+    .ios-tabbar {
+        background: #0D1117 !important;
+        border: 1px solid rgba(255, 255, 255, 0.5) !important;
+        -webkit-backdrop-filter: none !important;
+        backdrop-filter: none !important;
+    }
+    .btn-ghost { border-color: rgba(255, 255, 255, 0.7); }
+}

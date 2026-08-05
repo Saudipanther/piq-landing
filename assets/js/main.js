@@ -156,7 +156,9 @@ function initFormHandler() {
 
 // Custom cursor effect
 function initCursorEffect() {
-    if (window.innerWidth < 768) return;
+    // Fine pointers only; skip entirely under reduced motion
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     const cursor = document.createElement('div');
     cursor.className = 'custom-cursor';
@@ -228,10 +230,9 @@ function initCursorEffect() {
         ringX += (mouseX - ringX) * 0.15;
         ringY += (mouseY - ringY) * 0.15;
 
-        dot.style.left = dotX + 'px';
-        dot.style.top = dotY + 'px';
-        ring.style.left = ringX + 'px';
-        ring.style.top = ringY + 'px';
+        // Compositor-friendly: transform only, no left/top layout writes
+        dot.style.transform = 'translate3d(' + dotX + 'px,' + dotY + 'px,0) translate(-50%, -50%)';
+        ring.style.transform = 'translate3d(' + ringX + 'px,' + ringY + 'px,0) translate(-50%, -50%)';
 
         requestAnimationFrame(animateCursor);
     }
@@ -239,19 +240,25 @@ function initCursorEffect() {
     animateCursor();
 }
 
-// Magnetic button effect
-document.querySelectorAll('.btn-primary, .btn-ghost').forEach(btn => {
-    btn.addEventListener('mousemove', (e) => {
-        const rect = btn.getBoundingClientRect();
-        const x = e.clientX - rect.left - rect.width / 2;
-        const y = e.clientY - rect.top - rect.height / 2;
-        btn.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px)`;
-    });
+// Magnetic button effect: 1:1 while tracking, spring settle on release
+// (fine pointers only — hover events on touch leave buttons stranded)
+if (window.matchMedia('(hover: hover) and (pointer: fine)').matches &&
+    !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll('.btn-primary, .btn-ghost').forEach(btn => {
+        btn.addEventListener('mousemove', (e) => {
+            const rect = btn.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            btn.style.transition = 'none';
+            btn.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px)`;
+        });
 
-    btn.addEventListener('mouseleave', () => {
-        btn.style.transform = '';
+        btn.addEventListener('mouseleave', () => {
+            btn.style.transition = 'transform 0.5s cubic-bezier(0.22, 1, 0.36, 1)';
+            btn.style.transform = '';
+        });
     });
-});
+}
 
 // Typing effect for section tags
 function typeWriter(element, text, speed = 50) {
