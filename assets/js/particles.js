@@ -7,8 +7,13 @@ class ParticleSystem {
         this.particles = [];
         this.connections = [];
         this.mouse = { x: 0, y: 0 };
-        this.particleCount = window.innerWidth < 768 ? 40 : 80;
+        // Pair checks grow with the square of the count, so this is the
+        // cheapest lever on the whole canvas: 80 -> 46 cuts them by ~2/3
+        this.particleCount = window.innerWidth < 768 ? 22 : 46;
         this.connectionDistance = 150;
+        this.frameInterval = 1000 / 30;   // 30fps is plenty for drifting dots
+        this.lastFrame = 0;
+        this.paused = false;
         this.init();
     }
 
@@ -68,11 +73,15 @@ class ParticleSystem {
     }
 
     drawConnections() {
+        // Compare squared distances so the hot pair loop skips Math.sqrt
+        const maxSq = this.connectionDistance * this.connectionDistance;
         for (let i = 0; i < this.particles.length; i++) {
             for (let j = i + 1; j < this.particles.length; j++) {
                 const dx = this.particles[i].x - this.particles[j].x;
                 const dy = this.particles[i].y - this.particles[j].y;
-                const distance = Math.sqrt(dx * dx + dy * dy);
+                const distSq = dx * dx + dy * dy;
+                if (distSq >= maxSq) continue;
+                const distance = Math.sqrt(distSq);
 
                 if (distance < this.connectionDistance) {
                     const opacity = (1 - distance / this.connectionDistance) * 0.15;
@@ -125,7 +134,15 @@ class ParticleSystem {
         }
     }
 
-    animate() {
+    animate(now = 0) {
+        requestAnimationFrame((t) => this.animate(t));
+
+        // Nothing to draw for a backgrounded tab, and no reason to burn
+        // a phone's battery on a canvas nobody is looking at
+        if (this.paused || document.hidden) return;
+        if (now - this.lastFrame < this.frameInterval) return;
+        this.lastFrame = now;
+
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.updateParticles();
         this.drawConnections();
@@ -133,7 +150,6 @@ class ParticleSystem {
         for (let particle of this.particles) {
             this.drawParticle(particle);
         }
-        requestAnimationFrame(() => this.animate());
     }
 }
 

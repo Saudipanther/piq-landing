@@ -25,6 +25,19 @@ class ScrollSceneController {
         this.init();
     }
 
+    // Some visitors should never pay for the scene layer: metered or slow
+    // connections, and low-memory phones that stutter decoding video behind
+    // a scrolling page. They keep the gradient background instead.
+    static shouldSkipVideo() {
+        const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+        if (conn) {
+            if (conn.saveData) return true;
+            if (/(^|-)(2g|slow-2g)$/.test(conn.effectiveType || '')) return true;
+        }
+        if (navigator.deviceMemory && navigator.deviceMemory <= 2) return true;
+        return false;
+    }
+
     init() {
         // Create video background container
         this.container = document.createElement('div');
@@ -74,6 +87,16 @@ class ScrollSceneController {
         this.videoA.src = this.scenes[0].video;
         this.videoA.play().catch(() => {});
 
+        // A backgrounded tab keeps decoding video otherwise
+        document.addEventListener('visibilitychange', () => {
+            const active = this.activeVideo === 'A' ? this.videoA : this.videoB;
+            if (document.hidden) {
+                active.pause();
+            } else if (active.src) {
+                active.play().catch(() => {});
+            }
+        });
+
         // Autoplay can be blocked until first interaction: resume once
         const resumePlayback = () => {
             const active = this.activeVideo === 'A' ? this.videoA : this.videoB;
@@ -92,7 +115,9 @@ class ScrollSceneController {
         video.muted = true;
         video.loop = true;
         video.playsInline = true;
-        video.preload = 'auto';
+        // 'auto' had both elements fully buffering; only the playing clip
+        // needs data, and the idle one is given a src at transition time
+        video.preload = 'metadata';
         video.style.cssText = `
             position: absolute; top: 50%; left: 50%;
             min-width: 100%; min-height: 100%;
@@ -152,6 +177,11 @@ class ScrollSceneController {
         setTimeout(() => {
             this.transitioning = false;
             outgoingVideo.pause();
+            // Release the finished clip: frees its decoder and stops it
+            // buffering in the background. This is what keeps the cost flat
+            // as more scenes are added to the list above.
+            outgoingVideo.removeAttribute('src');
+            outgoingVideo.load();
         }, 1500);
     }
 }
@@ -166,7 +196,7 @@ class Interactive3DBlocks {
 
     init() {
         // Add click ripple effect to all interactive elements
-        document.querySelectorAll('.btn-primary, .btn-ghost, .service-card, .problem-card, .trust-card, .process-step').forEach(el => {
+        document.querySelectorAll('.btn-primary, .btn-ghost, .service-card, .problem-card, .trust-card').forEach(el => {
             el.addEventListener('click', (e) => this.createRipple(e));
             el.addEventListener('mouseenter', (e) => this.create3DLift(e));
             el.addEventListener('mouseleave', (e) => this.reset3D(e));
@@ -225,7 +255,7 @@ class Interactive3DBlocks {
             pointer-events: none; z-index: 1; overflow: hidden;
         `;
 
-        for (let i = 0; i < 8; i++) {
+        for (let i = 0; i < 5; i++) {
             const block = document.createElement('div');
             const size = 20 + Math.random() * 40;
             const x = Math.random() * 100;
@@ -240,7 +270,6 @@ class Interactive3DBlocks {
                 background: rgba(26,124,255,0.02);
                 transform: rotate(45deg);
                 animation: floatBlock ${duration}s ease-in-out ${delay}s infinite;
-                backdrop-filter: blur(1px);
             `;
             container.appendChild(block);
             this.blocks.push(block);
@@ -270,7 +299,7 @@ class Interactive3DBlocks {
 // Initialize on DOM ready
 document.addEventListener('DOMContentLoaded', () => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (!prefersReducedMotion) {
+    if (!prefersReducedMotion && !ScrollSceneController.shouldSkipVideo()) {
         new ScrollSceneController();
     }
     new Interactive3DBlocks(prefersReducedMotion);

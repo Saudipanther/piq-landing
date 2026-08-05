@@ -1,0 +1,179 @@
+/* ============================================================
+   PantherIQ — Process section redesign
+   A scroll-driven progress rail: the line fills as you read, each
+   node lights up when the rail reaches it, and its card settles in.
+   Motion is derived from scroll position every frame, so scrolling
+   back up reverses it (interruptible by construction).
+   Geometry is driven by the three custom properties below, so the
+   mobile scale change stays a one-line edit. process.js measures the
+   rail's top/height and writes the fill's scale.
+   ============================================================ */
+
+.process-timeline {
+    --node: 56px;   /* node diameter; also sets the rail's x position */
+    --gap: 28px;    /* node to card distance; also the connector length */
+    --pad: 32px;    /* vertical padding per step */
+    max-width: 760px;
+}
+
+/* ---------- Rail: dim track, bright scroll-driven fill ---------- */
+.timeline-line {
+    left: calc(var(--node) / 2 - 1px);
+    top: 0;
+    bottom: auto;                                   /* JS sets top + height */
+    width: 2px;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.09) !important;
+    box-shadow: none;
+    opacity: 1;
+}
+.timeline-progress {
+    position: absolute;
+    left: calc(var(--node) / 2 - 1px);
+    width: 2px;
+    border-radius: 2px;
+    background: linear-gradient(180deg, #00F5FF, #1A7CFF 55%, #8B5CF6);
+    box-shadow: 0 0 12px rgba(26, 124, 255, 0.5);
+    transform: scaleY(0);
+    transform-origin: top;
+    will-change: transform;
+    z-index: 1;
+}
+/* Leading dot rides the fill's tip: shows where you are on the path */
+.timeline-head {
+    position: absolute;
+    left: calc(var(--node) / 2 - 5px);
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #00F5FF;
+    box-shadow: 0 0 12px rgba(0, 245, 255, 0.9), 0 0 26px rgba(26, 124, 255, 0.5);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    will-change: transform;
+    z-index: 3;
+}
+.process-timeline.pt-live .timeline-head { opacity: 1; }
+
+[dir="rtl"] .timeline-progress { left: auto; right: calc(var(--node) / 2 - 1px); }
+[dir="rtl"] .timeline-head     { left: auto; right: calc(var(--node) / 2 - 5px); }
+
+/* ---------- Step layout ---------- */
+.process-step {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--gap);
+    padding: var(--pad) 0;
+}
+
+/* ---------- Node: hollow until the rail arrives ---------- */
+.step-number {
+    width: var(--node);
+    height: var(--node);
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.42);
+    background: rgba(13, 17, 23, 0.92) !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.14);
+    box-shadow: none;
+    transition:
+        color 0.4s ease,
+        border-color 0.4s ease,
+        background 0.4s ease,
+        box-shadow 0.5s ease,
+        transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.process-step.is-active .step-number {
+    color: #0D1117;
+    background: linear-gradient(135deg, #00F5FF, #1A7CFF 55%, #8B5CF6) !important;
+    border-color: transparent;
+    box-shadow: 0 0 0 6px rgba(0, 245, 255, 0.07), 0 0 26px rgba(26, 124, 255, 0.45);
+    transform: scale(1.06);
+}
+
+/* Halo behind the node, revealed on activation (was hover-only) */
+.step-glow {
+    left: calc(var(--node) / 2 - var(--node) * 0.85);
+    top: calc(var(--pad) + var(--node) / 2);
+    width: calc(var(--node) * 1.7);
+    height: calc(var(--node) * 1.7);
+    background: radial-gradient(circle, rgba(0, 245, 255, 0.16), transparent 70%);
+    transition: opacity 0.6s ease;
+}
+[dir="rtl"] .step-glow {
+    left: auto;
+    right: calc(var(--node) / 2 - var(--node) * 0.85);
+}
+.process-step.is-active .step-glow { opacity: 1; }
+
+/* ---------- Card: glass panel that settles in ---------- */
+.step-content {
+    flex: 1;
+    position: relative;
+    padding: 22px 26px;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    -webkit-backdrop-filter: blur(12px) saturate(140%);
+    backdrop-filter: blur(12px) saturate(140%);
+    opacity: 0.42;
+    transform: translateY(14px);
+    transition:
+        opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+        background 0.4s ease,
+        border-color 0.4s ease,
+        box-shadow 0.4s ease;
+}
+.process-step.is-active .step-content {
+    opacity: 1;
+    transform: translateY(0);
+    background: rgba(255, 255, 255, 0.045);
+    border-color: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 18px 44px rgba(0, 0, 0, 0.32);
+}
+
+/* Connector tick: ties the card to its node on the rail */
+.step-content::before {
+    content: '';
+    position: absolute;
+    top: calc(var(--node) / 2);
+    left: calc(var(--gap) * -1);
+    width: var(--gap);
+    height: 1px;
+    background: linear-gradient(90deg, rgba(0, 245, 255, 0.5), rgba(255, 255, 255, 0.08));
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+[dir="rtl"] .step-content::before {
+    left: auto;
+    right: calc(var(--gap) * -1);
+    background: linear-gradient(270deg, rgba(0, 245, 255, 0.5), rgba(255, 255, 255, 0.08));
+}
+.process-step.is-active .step-content::before { opacity: 1; }
+
+/* ---------- Hover: honest lift, only once the step is live ---------- */
+@media (hover: hover) and (pointer: fine) {
+    .process-step.is-active:hover .step-content {
+        transform: translateY(-2px);
+        border-color: rgba(0, 245, 255, 0.28);
+        background: rgba(255, 255, 255, 0.06);
+    }
+    .process-step:hover .step-number { transform: scale(1.06); }
+}
+
+/* ---------- Small screens ---------- */
+@media (max-width: 768px) {
+    .process-timeline { --node: 48px; --gap: 18px; --pad: 24px; }
+    .step-content { padding: 18px 20px; border-radius: 16px; }
+}
+
+/* ---------- Reduced motion: everything already arrived ---------- */
+@media (prefers-reduced-motion: reduce) {
+    .step-number,
+    .step-content,
+    .step-glow,
+    .step-content::before { transition: none; }
+}
+.process-timeline.pt-static .timeline-progress { transform: scaleY(1); }
+.process-timeline.pt-static .timeline-head { display: none; }
+.process-timeline.pt-static .step-content { opacity: 1; transform: none; }

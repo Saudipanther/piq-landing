@@ -1,0 +1,68 @@
+/* ============================================================
+   PantherIQ — Performance layer (loads last)
+
+   The site had 55 backdrop-filter surfaces compositing over a
+   playing video, which is what made scrolling stutter: every blurred
+   panel forces the compositor to re-sample the frames behind it.
+
+   Glass is now reserved for the floating chrome that actually needs
+   to read as a layer above content (nav, mobile menu, tab bar, scene
+   chip). Content panels get a slightly denser translucent background
+   instead: over the dark video overlay the two are nearly
+   indistinguishable, and text legibility improves.
+   ============================================================ */
+
+.problem-card,
+.service-card,
+.additional-card,
+.trust-card,
+.contact-card,
+.contact-form-wrap,
+.proof-dashboard,
+.dash-stat,
+.dash-chart,
+.dash-activity,
+.dashboard-header,
+.stat-item,
+.hero-eyebrow,
+.section-tag,
+.btn-ghost,
+.meta-tag,
+.additional-tag,
+.service-tier,
+.metric,
+.step-content,
+.footer-brand,
+#floating-blocks > div {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+}
+
+/* Denser panels to replace the blur's separation from the video */
+.problem-card,
+.service-card,
+.additional-card,
+.trust-card,
+.contact-card,
+.contact-form-wrap,
+.proof-dashboard {
+    background: rgba(13, 17, 23, 0.7) !important;
+}
+.step-content { background: rgba(13, 17, 23, 0.52); }
+.process-step.is-active .step-content { background: rgba(13, 17, 23, 0.66); }
+.stat-item,
+.hero-eyebrow {
+    background: rgba(13, 17, 23, 0.55) !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .process-step.is-active:hover .step-content { background: rgba(13, 17, 23, 0.74); }
+}
+
+/* Promote only the layers that actually move; a stacking hint on
+   dozens of static cards costs memory without buying smoothness. */
+#video-scene-bg video,
+.timeline-progress,
+.timeline-head {
+    will-change: transform, opacity;
+}
