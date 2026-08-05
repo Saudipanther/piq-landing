@@ -55,6 +55,11 @@
 }
 .process-timeline.pt-live .timeline-head { opacity: 1; }
 
+/* rtl.css pins the track to a hardcoded right: 28px, which no longer
+   matches the node radius once --node changes (5px off at the mobile
+   scale, so the dim track and the bright fill read as two lines).
+   All three rail pieces must derive their x from --node. */
+[dir="rtl"] .timeline-line     { left: auto; right: calc(var(--node) / 2 - 1px); }
 [dir="rtl"] .timeline-progress { left: auto; right: calc(var(--node) / 2 - 1px); }
 [dir="rtl"] .timeline-head     { left: auto; right: calc(var(--node) / 2 - 5px); }
 
