@@ -1,0 +1,111 @@
+—/* PantherIQ — iOS app experience layer
+Makes every section read like an iPhone widget / app page: squircle
+  geometry, spring motion, iOS list rows, app icons and a tab bar.
+  Brand colors, gradients, fonts and logos are reused unchanged. */
+
+:root {
+  --ios-r-lg: 28px;
+--ios-r-md: 22px;
+--ios-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+--ios-ease: cubic-bezier(0.32, 0.72, 0, 1);
+--ios-hairline: rgba(255, 255, 255, 0.13);
+--ios-fill: rgba(255, 255, 255, 0.07);
+--ios-fill-2: rgba(255, 255, 255, 0.12);
+}
+
+* { -webkit-tap-highlight-color: transparent; }
+html { scroll-behavior: smooth; }
+
+/* ---------- Dynamic Island style floating nav ---------- */
+.nav { background: transparent !important; border-bottom: 0 !important; -webkit-backdrop-filter: none !important; backdrop-filter: none !important; padding: 10px 16px !important; }
+.nav.scrolled { background: transparent !important; box-shadow: none !important; }
+.nav-inner { max-width: 1180px; margin: 0 auto; padding: 8px 12px !important; border-radius: 999px; background: rgba(10, 12, 20, 0.55); -webkit-backdrop-filter: blur(24px) saturate(180%); backdrop-filter: blur(24px) saturate(180%); border: 1px solid var(--ios-hairline); box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.09); transition: background 0.5s var(--ios-ease), padding 0.5s var(--ios-ease); }
+.nav.scrolled .nav-inner { background: rgba(8, 10, 18, 0.72); }
+.nav-link { border-radius: 999px; padding: 7px 12px !important; transition: background 0.3s var(--ios-ease), color 0.3s var(--ios-ease), transform 0.45s var(--ios-spring); }
+.nav-link:hover { background: var(--ios-fill); }
+.nav-link:active { transform: scale(0.93); }
+.nav-link.lang-switch { background: var(--ios-fill-2) !important; border: 1px solid var(--ios-hairline) !important; border-radius: 999px !important; font-weight: 600 !important; }
+.nav-status { padding: 6px 12px; border-radius: 999px; background: var(--ios-fill); border: 1px solid var(--ios-hairline); }
+
+/* ---------- iOS type rhythm (same brand fonts, tighter tracking) ---------- */
+.hero-title { letter-spacing: -0.045em !important; line-height: 1 !important; }
+.section-title { letter-spacing: -0.032em !important; line-height: 1.06 !important; }
+.hero-subtitle, .section-subtitle { letter-spacing: -0.008em; }
+.section-tag { display: inline-flex !important; align-items: center; gap: 8px; padding: 6px 13px !important; border-radius: 999px; background: var(--ios-fill); border: 1px solid var(--ios-hairline); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
+.hero-eyebrow { border-radius: 999px; }
+
+/* ---------- Widgets: unified squircle geometry + spring motion ---------- */
+.problem-card, .service-card, .additional-card, .trust-card, .contact-card, .stat-item, .dash-stat, .metric { border-radius: var(--ios-r-md) !important; transition: transform 0.6s var(--ios-spring), box-shadow 0.45s var(--ios-ease), background 0.4s var(--ios-ease) !important; }
+.problem-card:hover, .service-card:hover, .additional-card:hover, .trust-card:hover, .metric:hover, .dash-stat:hover, .stat-item:hover { transform: translateY(-6px) scale(1.012) !important; box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.14) !important; }
+.problem-card:active, .service-card:active, .additional-card:active, .trust-card:active, .stat-item:active, .dash-stat:active, .metric:active { transform: scale(0.975) !important; }
+.proof-dashboard { border-radius: var(--ios-r-lg) !important; }
+
+  /* ---------- iOS app-icon squircles ---------- */
+  .service-icon-wrap, .trust-icon { width: 54px !important; height: 54px !important; min-width: 54px; border-radius: 16px !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; background: linear-gradient(155deg, rgba(0, 245, 255, 0.2), rgba(26, 124, 255, 0.16) 55%, rgba(139, 92, 246, 0.22)) !important; border: 1px solid rgba(255, 255, 255, 0.16) !important; box-shadow: 0 10px 22px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.2) !important; }
+.step-number { border-radius: 16px !important; }
+
+/* ---------- Hero stats as small iPhone widgets ---------- */
+.hero-stats { display: grid !important; grid-template-columns: repeat(3, minmax(0, 1fr)) !important; gap: 12px !important; max-width: 600px; align-items: stretch !important; }
+.stat-divider { display: none !important; }
+.stat-item { display: flex !important; flex-direction: column !important; align-items: flex-start !important; gap: 2px; padding: 16px 18px !important; background: rgba(255, 255, 255, 0.06) !important; -webkit-backdrop-filter: blur(20px) saturate(150%) !important; backdrop-filter: blur(20px) saturate(150%) !important; border: 1px solid var(--ios-hairline) !important; box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.1) !important; }
+[dir="rtl"] .stat-item { align-items: flex-end !important; }
+
+/* ---------- Proof dashboard as a grouped widget stack ---------- */
+.dashboard-stats { gap: 12px !important; }
+.dash-stat { padding: 15px 16px !important; border-radius: 18px !important; background: rgba(255, 255, 255, 0.05) !important; border: 1px solid var(--ios-hairline) !important; }
+.dash-chart, .dash-activity { border-radius: 20px !important; }
+.activity-item { border-radius: 14px !important; }
+
+/* ---------- About metrics as widgets ---------- */
+.about-metrics { display: grid !important; grid-template-columns: repeat(3, minmax(0, 1fr)) !important; gap: 12px !important; }
+.metric { padding: 18px !important; background: rgba(255, 255, 255, 0.055) !important; border: 1px solid var(--ios-hairline) !important; -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px); display: flex !important; flex-direction: column; gap: 4px; }
+
+/* ---------- iOS pill buttons with press feedback ---------- */
+.btn-primary, .btn-ghost { border-radius: 999px !important; font-weight: 600 !important; letter-spacing: -0.01em !important; transition: transform 0.5s var(--ios-spring), box-shadow 0.4s var(--ios-ease), filter 0.3s !important; }
+.btn-primary:hover, .btn-ghost:hover { transform: translateY(-2px) scale(1.02) !important; }
+.btn-primary:active, .btn-ghost:active { transform: scale(0.955) !important; }
+.btn-ghost { background: var(--ios-fill) !important; border: 1px solid var(--ios-hairline) !important; -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px); }
+
+/* ---------- iOS form fields ---------- */
+.contact-form input, .contact-form textarea { border-radius: 16px !important; background: rgba(255, 255, 255, 0.06) !important; border: 1px solid var(--ios-hairline) !important; -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); transition: border-color 0.3s, box-shadow 0.3s, background 0.3s !important; }
+.contact-form input:focus, .contact-form textarea:focus { outline: none !important; border-color: rgba(0, 245, 255, 0.5) !important; box-shadow: 0 0 0 4px rgba(0, 245, 255, 0.12) !important; }
+.contact-form label { letter-spacing: 0.08em; }
+
+/* ---------- iOS grouped list rows ---------- */
+.contact-item { position: relative; padding: 12px 14px !important; border-radius: 16px; transition: background 0.3s var(--ios-ease), transform 0.45s var(--ios-spring); }
+.contact-item:hover { background: var(--ios-fill); }
+.contact-item:active { transform: scale(0.98); }
+
+/* ---------- Widget kickers and chevrons (added by ios-enhance.js) ---------- */
+.ios-kicker { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gray-300); }
+.ios-kicker-dot { width: 7px; height: 7px; border-radius: 50%; flex: none; background: var(--gradient); box-shadow: var(--glow-cyan); }
+.ios-kicker-index { margin-inline-start: auto; opacity: 0.65; font-variant-numeric: tabular-nums; }
+.ios-chevron { flex: none; margin-inline-start: auto; opacity: 0.4; transition: opacity 0.3s, transform 0.45s var(--ios-spring); }
+.contact-item:hover .ios-chevron { opacity: 0.85; transform: translateX(3px); }
+[dir="rtl"] .ios-chevron { transform: scaleX(-1); }
+[dir="rtl"] .contact-item:hover .ios-chevron { transform: scaleX(-1) translateX(3px); }
+
+/* ---------- Spring reveal motion ---------- */
+.animate-reveal, .animate-fade-up { animation-timing-function: var(--ios-spring) !important; }
+
+  /* ---------- Mobile: iOS tab bar (added by ios-enhance.js) ---------- */
+.ios-tabbar { display: none; }
+@media (max-width: 860px) {
+.ios-tabbar { display: flex; position: fixed; z-index: 998; left: 12px; right: 12px; bottom: calc(10px + env(safe-area-inset-bottom)); align-items: center; gap: 4px; padding: 8px 6px; border-radius: 26px; background: rgba(9, 11, 19, 0.66); -webkit-backdrop-filter: blur(28px) saturate(180%); backdrop-filter: blur(28px) saturate(180%); border: 1px solid var(--ios-hairline); box-shadow: 0 16px 44px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.09); }
+.ios-tab { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 7px 2px; border-radius: 18px; color: var(--gray-300); text-decoration: none; font-size: 0.55rem; letter-spacing: 0.07em; text-transform: uppercase; transition: color 0.3s, background 0.3s, transform 0.45s var(--ios-spring); }
+.ios-tab svg { width: 21px; height: 21px; }
+.ios-tab:active { transform: scale(0.9); }
+.ios-tab.active { color: var(--white); background: var(--ios-fill-2); }
+.footer { padding-bottom: 104px !important; }
+.hero-stats { gap: 8px !important; }
+.stat-item { padding: 13px !important; }
+}
+@media (max-width: 520px) {
+.hero-stats { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+.hero-stats .stat-item:last-of-type { grid-column: span 2; }
+.about-metrics { grid-template-columns: 1fr !important; }
+.nav-status { display: none !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .problem-card, .service-card, .trust-card, .additional-card, .stat-item, .metric, .dash-stat, .btn-primary, .btn-ghost { transition-duration: 0.01ms !important; }
+}
