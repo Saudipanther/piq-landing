@@ -3,13 +3,15 @@
 
 class ScrollSceneController {
     constructor() {
+        const isArabic = document.documentElement.lang === 'ar';
+        this.isArabic = isArabic;
         this.scenes = [
-            { id: 'hero', video: '../assets/video/scene_kafd.mp4', label: 'KAFD Financial District' },
-            { id: 'problem', video: '../assets/video/scene_metro.mp4', label: 'Riyadh Metro' },
-            { id: 'services', video: '../assets/video/scene_kingdom.mp4', label: 'Kingdom Tower' },
-            { id: 'how-we-work', video: '../assets/video/scene_faisaliah.mp4', label: 'Al Faisaliah Tower' },
-            { id: 'proof', video: '../assets/video/scene_library.mp4', label: 'King Fahad Library' },
-            { id: 'trust', video: '../assets/video/scene_cairo.mp4', label: 'Cairo Square' },
+            { id: 'hero', video: '../assets/video/scene_kafd.mp4', label: isArabic ? 'مركز الملك عبدالله المالي' : 'KAFD Financial District' },
+            { id: 'problem', video: '../assets/video/scene_metro.mp4', label: isArabic ? 'مترو الرياض' : 'Riyadh Metro' },
+            { id: 'services', video: '../assets/video/scene_kingdom.mp4', label: isArabic ? 'برج المملكة' : 'Kingdom Tower' },
+            { id: 'how-we-work', video: '../assets/video/scene_faisaliah.mp4', label: isArabic ? 'برج الفيصلية' : 'Al Faisaliah Tower' },
+            { id: 'proof', video: '../assets/video/scene_library.mp4', label: isArabic ? 'مكتبة الملك فهد الوطنية' : 'King Fahad Library' },
+            { id: 'trust', video: '../assets/video/scene_cairo.mp4', label: isArabic ? 'ميدان القاهرة' : 'Cairo Square' },
         ];
         
         this.currentScene = 0;
@@ -41,18 +43,23 @@ class ScrollSceneController {
         const overlay = document.createElement('div');
         overlay.style.cssText = `
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(180deg, rgba(2,5,16,0.5) 0%, rgba(2,5,16,0.3) 50%, rgba(2,5,16,0.6) 100%);
+            background: linear-gradient(180deg, rgba(2,5,16,0.6) 0%, rgba(2,5,16,0.4) 50%, rgba(2,5,16,0.7) 100%);
             z-index: 1;
         `;
 
         // Location indicator
         this.locationIndicator = document.createElement('div');
+        this.locationIndicator.id = 'scene-location';
+        const indicatorFont = this.isArabic
+            ? "'Readex Pro', 'IBM Plex Sans Arabic', sans-serif"
+            : "'Space Mono', monospace";
+        const indicatorSpacing = this.isArabic ? '0' : '1px';
         this.locationIndicator.style.cssText = `
-            position: fixed; bottom: 30px; right: 30px; z-index: 1000;
+            position: fixed; bottom: 30px; ${this.isArabic ? 'left' : 'right'}: 30px; z-index: 1000;
             background: rgba(0,245,255,0.1); border: 1px solid rgba(0,245,255,0.3);
             backdrop-filter: blur(10px); border-radius: 8px; padding: 8px 16px;
-            font-family: 'Space Mono', monospace; font-size: 11px; color: #00F5FF;
-            letter-spacing: 1px; text-transform: uppercase;
+            font-family: ${indicatorFont}; font-size: ${this.isArabic ? '13px' : '11px'}; color: #00F5FF;
+            letter-spacing: ${indicatorSpacing}; text-transform: uppercase;
             transition: all 0.5s ease; pointer-events: none;
         `;
         this.locationIndicator.textContent = this.scenes[0].label;
@@ -66,6 +73,14 @@ class ScrollSceneController {
         // Load first scene
         this.videoA.src = this.scenes[0].video;
         this.videoA.play().catch(() => {});
+
+        // Autoplay can be blocked until first interaction: resume once
+        const resumePlayback = () => {
+            const active = this.activeVideo === 'A' ? this.videoA : this.videoB;
+            if (active.paused && active.src) active.play().catch(() => {});
+        };
+        ['pointerdown', 'touchstart', 'scroll', 'keydown'].forEach((evt) =>
+            window.addEventListener(evt, resumePlayback, { once: true, passive: true }));
 
         // Setup scroll observer
         this.setupScrollObserver();
@@ -143,8 +158,9 @@ class ScrollSceneController {
 
 // Interactive 3D Blocks on click
 class Interactive3DBlocks {
-    constructor() {
+    constructor(reducedMotion) {
         this.blocks = [];
+        this.reducedMotion = !!reducedMotion;
         this.init();
     }
 
@@ -157,7 +173,9 @@ class Interactive3DBlocks {
         });
 
         // Add floating 3D blocks that react to scroll
-        this.createFloatingBlocks();
+        if (!this.reducedMotion) {
+            this.createFloatingBlocks();
+        }
     }
 
     createRipple(e) {
@@ -251,8 +269,11 @@ class Interactive3DBlocks {
 
 // Initialize on DOM ready
 document.addEventListener('DOMContentLoaded', () => {
-    new ScrollSceneController();
-    new Interactive3DBlocks();
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!prefersReducedMotion) {
+        new ScrollSceneController();
+    }
+    new Interactive3DBlocks(prefersReducedMotion);
 
     // Add CSS animation for floating blocks
     const style = document.createElement('style');
