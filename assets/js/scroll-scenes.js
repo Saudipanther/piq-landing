@@ -206,7 +206,7 @@ class Interactive3DBlocks {
 
     create3DLift(e) {
         const el = e.currentTarget;
-        el.style.transition = 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease';
+        el.style.transition = 'transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease';
         el.style.transform = 'translateY(-8px) scale(1.02) perspective(1000px) rotateX(2deg)';
         el.style.boxShadow = '0 20px 60px rgba(0,245,255,0.15), 0 0 30px rgba(26,124,255,0.1)';
     }
