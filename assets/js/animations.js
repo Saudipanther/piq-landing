@@ -41,17 +41,8 @@ function initGSAPAnimations() {
         opacity: 0, y: 60, scale: 0.95, stagger: 0.2, duration: 0.8
     });
 
-    // Process steps
-    gsap.from('.process-step', {
-        scrollTrigger: { trigger: '.process-timeline', start: 'top 80%' },
-        opacity: 0, x: -40, stagger: 0.2, duration: 0.8
-    });
-
-    // Timeline line grow
-    gsap.from('.timeline-line', {
-        scrollTrigger: { trigger: '.process-timeline', start: 'top 80%' },
-        scaleY: 0, transformOrigin: 'top', duration: 1.5
-    });
+    // Process section is driven by process.js (scroll-linked rail) — GSAP
+    // must not write inline styles on .process-step or .timeline-line.
 
     // Dashboard entrance
     gsap.from('.proof-dashboard', {
