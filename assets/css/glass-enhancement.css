@@ -1,0 +1,78 @@
+/* iOS-style glassmorphism enhancement for PantherIQ site
+   Adds frosted-glass panels behind text-heavy cards for readability
+      without altering brand colors, gradients, fonts, or logos. */
+
+.problem-card,
+.service-card,
+.additional-card,
+.trust-card,
+.contact-card,
+.proof-dashboard {
+    background: rgba(255, 255, 255, 0.055) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(160%) !important;
+    backdrop-filter: blur(24px) saturate(160%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.14) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.07) !important;
+    border-radius: 22px !important;
+}
+
+.stat-item {
+    background: rgba(255, 255, 255, 0.05);
+    -webkit-backdrop-filter: blur(16px) saturate(150%);
+    backdrop-filter: blur(16px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 10px 16px;
+}
+
+.hero-eyebrow {
+    background: rgba(255, 255, 255, 0.06);
+    -webkit-backdrop-filter: blur(14px) saturate(150%);
+    backdrop-filter: blur(14px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 999px;
+    padding: 8px 16px;
+}
+
+.dash-stat {
+    background: rgba(255, 255, 255, 0.05);
+    -webkit-backdrop-filter: blur(14px) saturate(150%);
+    backdrop-filter: blur(14px) saturate(150%);
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 10px 14px;
+}
+
+.contact-form-wrap {
+    border-radius: 24px;
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .problem-card,
+    .service-card,
+    .additional-card,
+    .trust-card,
+    .contact-card,
+    .proof-dashboard {
+          background: rgba(15, 15, 25, 0.85) !important;
+    }
+}
+
+/* Darken the Riyadh scene video background ~10% for stronger text contrast
+   (overrides the JS-generated gradient overlay on #video-scene-bg) */
+#video-scene-bg > div {
+    background: linear-gradient(180deg, rgba(2, 5, 16, 0.6) 0%, rgba(2, 5, 16, 0.4) 50%, rgba(2, 5, 16, 0.7) 100%) !important;
+}
+
+/* Tuned glass widgets over video: blurred + tinted, but the video stays
+   softly visible through them (lower blur radius, low-opacity tint) */
+.problem-card,
+.service-card,
+.additional-card,
+.trust-card,
+.contact-card,
+.proof-dashboard {
+    background: rgba(255, 255, 255, 0.08) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(140%) !important;
+    backdrop-filter: blur(18px) saturate(140%) !important;
+}
