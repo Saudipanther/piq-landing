@@ -1,0 +1,442 @@
+/* ============================================================
+   PantherIQ — Upgrade v2 design layer
+   Additive on top of style.css / rtl.css / fix.css / glass /
+   ios-experience. Brand palette, Poppins EN and logo untouched.
+   Arabic typography moves to Readex Pro with a larger scale.
+   ============================================================ */
+
+/* ---------- 1. Scroll progress bar ---------- */
+#scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    z-index: 3000;
+    pointer-events: none;
+    background: transparent;
+}
+#scroll-progress .bar {
+    height: 100%;
+    width: 100%;
+    transform: scaleX(0);
+    transform-origin: left;
+    background: linear-gradient(90deg, #00F5FF 0%, #1A7CFF 50%, #8B5CF6 100%);
+    box-shadow: 0 0 12px rgba(0, 245, 255, 0.55);
+}
+[dir="rtl"] #scroll-progress .bar { transform-origin: right; }
+
+/* ---------- 2. Navigation polish + full logo lockup ---------- */
+.nav-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    transition: filter 0.35s ease, transform 0.35s ease;
+}
+.nav-logo img { display: block; }
+.nav-logo:hover { filter: drop-shadow(0 0 14px rgba(0, 245, 255, 0.45)); }
+.logo-wordmark {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 21px;
+    letter-spacing: 0.2px;
+    color: #FFFFFF;
+    line-height: 1;
+    white-space: nowrap;
+}
+.logo-wordmark .logo-iq {
+    font-weight: 700;
+    background: linear-gradient(135deg, #00F5FF 0%, #1A7CFF 50%, #8B5CF6 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+.footer-lockup {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+.footer-lockup img { display: block; }
+[dir="rtl"] .footer-brand .footer-lockup { flex-direction: row; }
+
+.nav-link { position: relative; }
+.nav-link:not(.lang-switch)::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: auto;
+    bottom: -6px;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, #00F5FF, #8B5CF6);
+    border-radius: 2px;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.nav-link:not(.lang-switch):hover::after,
+.nav-link.active::after { transform: scaleX(1); }
+.nav-link.active { color: #FFFFFF; }
+[dir="rtl"] .nav-link:not(.lang-switch)::after { transform-origin: right; }
+
+.lang-switch {
+    border: 1px solid rgba(0, 245, 255, 0.35);
+    border-radius: 999px;
+    padding: 6px 16px !important;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+.lang-switch:hover {
+    border-color: rgba(0, 245, 255, 0.8);
+    box-shadow: 0 0 18px rgba(0, 245, 255, 0.25);
+    background: rgba(0, 245, 255, 0.08);
+}
+
+/* ---------- 3. Hero entrance + typography ---------- */
+@media (prefers-reduced-motion: no-preference) {
+    @keyframes piqRiseIn {
+        from { opacity: 0; transform: translateY(28px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero-eyebrow  { animation: piqRiseIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.10s both; }
+    .hero-title    { animation: piqRiseIn 1.0s cubic-bezier(0.16, 1, 0.3, 1) 0.28s both; }
+    .hero-subtitle { animation: piqRiseIn 1.0s cubic-bezier(0.16, 1, 0.3, 1) 0.48s both; }
+    .hero-cta      { animation: piqRiseIn 1.0s cubic-bezier(0.16, 1, 0.3, 1) 0.66s both; }
+    .hero-stats    { animation: piqRiseIn 1.0s cubic-bezier(0.16, 1, 0.3, 1) 0.84s both; }
+
+    /* Living gradient on key display text */
+    .gradient-text {
+        background-size: 200% auto !important;
+        animation: piqGradientDrift 7s ease-in-out infinite alternate;
+    }
+    @keyframes piqGradientDrift {
+        from { background-position: 0% center; }
+        to   { background-position: 100% center; }
+    }
+}
+
+/* Slightly stronger hero presence at large sizes */
+@media (min-width: 1024px) {
+    .hero-title { text-shadow: 0 24px 80px rgba(0, 0, 0, 0.55); }
+}
+
+/* ---------- 4. Buttons ---------- */
+.btn-primary { position: relative; overflow: hidden; isolation: isolate; }
+.btn-primary::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.35) 50%, transparent 70%);
+    transform: translateX(-120%);
+}
+.btn-primary:hover::after { animation: piqShine 0.9s ease forwards; }
+@keyframes piqShine { to { transform: translateX(120%); } }
+[dir="rtl"] .btn-primary::after { transform: translateX(120%); }
+[dir="rtl"] .btn-primary:hover::after { animation: piqShineRtl 0.9s ease forwards; }
+@keyframes piqShineRtl { to { transform: translateX(-120%); } }
+.btn-primary:hover { box-shadow: 0 12px 44px rgba(26, 124, 255, 0.45), 0 0 24px rgba(0, 245, 255, 0.35); }
+
+.btn-ghost { transition: border-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease; }
+.btn-ghost:hover {
+    border-color: rgba(0, 245, 255, 0.65);
+    box-shadow: inset 0 0 0 1px rgba(0, 245, 255, 0.35), 0 0 22px rgba(0, 245, 255, 0.15);
+}
+
+/* ---------- 5. Card refinement (problem / service / trust / additional) ---------- */
+.problem-card, .service-card, .trust-card, .additional-card, .contact-card, .contact-form-wrap {
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    transition: border-color 0.4s ease, box-shadow 0.4s ease, background 0.4s ease;
+}
+.problem-card:hover, .service-card:hover, .trust-card:hover, .additional-card:hover {
+    border-color: rgba(0, 245, 255, 0.28);
+}
+.service-card.featured {
+    border-color: rgba(0, 245, 255, 0.30);
+    box-shadow: 0 0 44px rgba(26, 124, 255, 0.12);
+}
+.service-card.featured::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 10%;
+    right: 10%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #00F5FF, #8B5CF6, transparent);
+    border-radius: 2px;
+}
+
+/* ---------- 6. Ghost section numerals ---------- */
+.section .section-header { position: relative; }
+.section .section-header::before {
+    position: absolute;
+    top: -0.55em;
+    inset-inline-end: 0;
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(96px, 14vw, 200px);
+    font-weight: 700;
+    line-height: 1;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(0, 245, 255, 0.10);
+    pointer-events: none;
+    z-index: 0;
+}
+.problem-section  .section-header::before { content: "01"; }
+.services-section .section-header::before { content: "02"; }
+.process-section  .section-header::before { content: "03"; }
+.proof-section    .section-header::before { content: "04"; }
+.trust-section    .section-header::before { content: "05"; }
+.about-section    .section-header::before { content: "06"; }
+.contact-section  .section-header::before { content: "07"; }
+.section .section-header > * { position: relative; z-index: 1; }
+
+/* ---------- 7. Process timeline glow ---------- */
+.timeline-line {
+    background: linear-gradient(180deg, #00F5FF, #1A7CFF, #8B5CF6) !important;
+    box-shadow: 0 0 16px rgba(26, 124, 255, 0.45);
+}
+@media (prefers-reduced-motion: no-preference) {
+    .step-number { transition: box-shadow 0.4s ease, transform 0.4s ease; }
+    .process-step:hover .step-number {
+        box-shadow: 0 0 26px rgba(0, 245, 255, 0.5);
+        transform: scale(1.06);
+    }
+}
+
+/* ---------- 8. Dashboard mock: living chart + tilt ---------- */
+.proof-dashboard {
+    transform-style: preserve-3d;
+    will-change: transform;
+    transition: transform 0.25s ease-out;
+}
+@media (prefers-reduced-motion: no-preference) {
+    .chart-bars .bar {
+        animation: piqBarPulse 3.2s ease-in-out infinite alternate;
+        transform-origin: bottom;
+    }
+    .chart-bars .bar:nth-child(1) { animation-delay: 0.00s; }
+    .chart-bars .bar:nth-child(2) { animation-delay: 0.25s; }
+    .chart-bars .bar:nth-child(3) { animation-delay: 0.50s; }
+    .chart-bars .bar:nth-child(4) { animation-delay: 0.75s; }
+    .chart-bars .bar:nth-child(5) { animation-delay: 1.00s; }
+    .chart-bars .bar:nth-child(6) { animation-delay: 1.25s; }
+    .chart-bars .bar:nth-child(7) { animation-delay: 1.50s; }
+    .chart-bars .bar:nth-child(8) { animation-delay: 1.75s; }
+    @keyframes piqBarPulse {
+        from { transform: scaleY(0.82); opacity: 0.75; }
+        to   { transform: scaleY(1);    opacity: 1; }
+    }
+    .activity-dot { animation: piqDotPulse 2.2s ease-in-out infinite; }
+    .activity-item:nth-child(3) .activity-dot { animation-delay: 0.5s; }
+    .activity-item:nth-child(4) .activity-dot { animation-delay: 1s; }
+    @keyframes piqDotPulse {
+        0%, 100% { box-shadow: 0 0 0 0 rgba(0, 245, 255, 0.45); }
+        50%      { box-shadow: 0 0 0 6px rgba(0, 245, 255, 0); }
+    }
+}
+
+/* ---------- 9. Scene location indicator ---------- */
+#scene-location {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+#scene-location::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #00F5FF;
+    box-shadow: 0 0 10px rgba(0, 245, 255, 0.8);
+    flex: 0 0 auto;
+}
+@media (prefers-reduced-motion: no-preference) {
+    #scene-location::before { animation: piqDotPulse 2.4s ease-in-out infinite; }
+}
+
+/* ---------- 10. Contact form ---------- */
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: rgba(0, 245, 255, 0.6) !important;
+    box-shadow: 0 0 0 3px rgba(0, 245, 255, 0.12), 0 0 24px rgba(26, 124, 255, 0.12);
+    outline: none;
+}
+.form-note {
+    margin-top: 14px;
+    font-size: 13px;
+    line-height: 1.7;
+    color: rgba(230, 230, 232, 0.55);
+}
+.form-note a { color: rgba(0, 245, 255, 0.8); }
+
+/* ---------- 11. About: Saudi Panther link ---------- */
+.about-group-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 22px;
+    padding: 10px 20px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 999px;
+    color: #E6E6E8;
+    text-decoration: none;
+    font-size: 14px;
+    letter-spacing: 0.4px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
+}
+.about-group-link img { height: 20px; width: auto; opacity: 0.85; }
+.about-group-link:hover {
+    border-color: rgba(0, 245, 255, 0.55);
+    box-shadow: 0 0 20px rgba(0, 245, 255, 0.15);
+    color: #FFFFFF;
+}
+
+/* ---------- 12. Footer: group row + lockup ---------- */
+.footer-brand svg { display: block; }
+.sp-group-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding: 22px 0 4px;
+    margin-top: 26px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+.sp-group-row a {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: rgba(230, 230, 232, 0.6);
+    font-size: 13px;
+    letter-spacing: 0.6px;
+    transition: color 0.3s ease, filter 0.3s ease;
+}
+.sp-group-row img {
+    height: 30px;
+    width: auto;
+    opacity: 0.72;
+    transition: opacity 0.3s ease, filter 0.3s ease;
+}
+.sp-group-row a:hover { color: #FFFFFF; }
+.sp-group-row a:hover img {
+    opacity: 1;
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.35));
+}
+
+/* ============================================================
+   13. ARABIC / RTL LAYER — Readex Pro + larger scale + fixes
+   ============================================================ */
+[dir="rtl"] body,
+[dir="rtl"] {
+    font-family: 'Readex Pro', 'IBM Plex Sans Arabic', 'Poppins', -apple-system, sans-serif;
+}
+[dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3,
+[dir="rtl"] h4, [dir="rtl"] h5, [dir="rtl"] h6 {
+    font-family: 'Readex Pro', 'IBM Plex Sans Arabic', 'Poppins', sans-serif;
+    letter-spacing: 0 !important;
+}
+
+/* Arabic must never letter-space or fall into mono: letters disconnect */
+[dir="rtl"] .section-tag,
+[dir="rtl"] .eyebrow-text,
+[dir="rtl"] .meta-tag,
+[dir="rtl"] .additional-tag,
+[dir="rtl"] .service-tier,
+[dir="rtl"] .status-text,
+[dir="rtl"] .stat-label,
+[dir="rtl"] .metric-label,
+[dir="rtl"] .contact-label,
+[dir="rtl"] .chart-title,
+[dir="rtl"] .dash-stat-label,
+[dir="rtl"] .dashboard-title,
+[dir="rtl"] .scroll-indicator span,
+[dir="rtl"] .footer-links a,
+[dir="rtl"] .footer-legal,
+[dir="rtl"] .footer-copy,
+[dir="rtl"] .footer-tagline,
+[dir="rtl"] .ios-kicker,
+[dir="rtl"] .nav-link {
+    font-family: 'Readex Pro', 'IBM Plex Sans Arabic', sans-serif !important;
+    letter-spacing: 0 !important;
+    word-spacing: 0.02em;
+}
+
+/* Larger, more readable Arabic scale */
+[dir="rtl"] .hero-subtitle    { font-size: 1.2rem;  line-height: 2.05; }
+[dir="rtl"] .section-subtitle { font-size: 1.15rem; line-height: 2; }
+[dir="rtl"] .section-tag      { font-size: 0.95rem; }
+[dir="rtl"] .eyebrow-text     { font-size: 1rem; }
+[dir="rtl"] .service-tier     { font-size: 0.95rem; }
+[dir="rtl"] .service-card h3  { font-size: 1.55rem; line-height: 1.6; }
+[dir="rtl"] .service-card p   { font-size: 1.08rem; line-height: 2; }
+[dir="rtl"] .problem-card h3  { font-size: 1.45rem; line-height: 1.6; }
+[dir="rtl"] .problem-card p   { font-size: 1.06rem; line-height: 2; }
+[dir="rtl"] .trust-card h3    { font-size: 1.3rem;  line-height: 1.6; }
+[dir="rtl"] .trust-card p     { font-size: 1.04rem; line-height: 1.95; }
+[dir="rtl"] .additional-card h4 { font-size: 1.3rem; }
+[dir="rtl"] .additional-card p  { font-size: 1.04rem; line-height: 1.95; }
+[dir="rtl"] .step-content h3  { font-size: 1.45rem; }
+[dir="rtl"] .step-content p   { font-size: 1.06rem; line-height: 2; }
+[dir="rtl"] .about-text p     { font-size: 1.12rem; line-height: 2.1; }
+[dir="rtl"] .meta-tag         { font-size: 0.9rem; padding: 6px 14px; }
+[dir="rtl"] .additional-tag   { font-size: 0.9rem; }
+[dir="rtl"] .stat-label       { font-size: 0.95rem; }
+[dir="rtl"] .form-group label { font-size: 1rem; }
+[dir="rtl"] .form-note        { font-size: 0.9rem; line-height: 1.9; }
+[dir="rtl"] .footer-tagline   { font-size: 1.05rem; }
+[dir="rtl"] .contact-item a,
+[dir="rtl"] .contact-item span:not(.contact-label) { font-size: 1.02rem; }
+
+/* Hero eyebrow: perfectly centered and symmetric in RTL */
+[dir="rtl"] .hero-eyebrow {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+[dir="rtl"] .hero-eyebrow .eyebrow-line { flex: 0 0 48px; }
+
+/* Keep Latin digits and brand snippets crisp in RTL */
+[dir="rtl"] .stat-number,
+[dir="rtl"] .stat-suffix,
+[dir="rtl"] .dash-stat-value,
+[dir="rtl"] .dash-stat-change,
+[dir="rtl"] .step-number,
+[dir="rtl"] .metric-value {
+    font-family: 'Poppins', sans-serif !important;
+    direction: ltr;
+    unicode-bidi: isolate;
+    letter-spacing: 0;
+}
+
+/* RTL alignment corrections */
+[dir="rtl"] .section-header { text-align: right; }
+[dir="rtl"] .section-header::before { inset-inline-end: auto; inset-inline-start: 0; }
+[dir="rtl"] .hero-stats { justify-content: flex-start; }
+[dir="rtl"] .stat-item { align-items: flex-start; text-align: right; }
+[dir="rtl"] .footer-brand { display: flex; flex-direction: column; align-items: flex-end; }
+[dir="rtl"] .form-note { text-align: right; }
+[dir="rtl"] .sp-group-row a { flex-direction: row; }
+
+/* ---------- 14. Reduced motion: calm everything new ---------- */
+@media (prefers-reduced-motion: reduce) {
+    .hero-eyebrow, .hero-title, .hero-subtitle, .hero-cta, .hero-stats {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+    .btn-primary::after { display: none; }
+    #scroll-progress .bar { transition: none; }
+}
+
+/* ---------- 15. Small screens ---------- */
+/* 860px matches the ios-experience tab bar breakpoint */
+@media (max-width: 860px) {
+    #scene-location { bottom: 92px !important; }
+}
+@media (max-width: 768px) {
+    .section .section-header::before { font-size: 84px; opacity: 0.8; }
+    .sp-group-row { flex-direction: column; gap: 10px; }
+    [dir="rtl"] .hero-subtitle { font-size: 1.1rem; }
+    [dir="rtl"] .service-card h3 { font-size: 1.4rem; }
+}

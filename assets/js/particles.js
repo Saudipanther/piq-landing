@@ -137,7 +137,8 @@ class ParticleSystem {
     }
 }
 
-// Initialize when DOM is ready
+// Initialize when DOM is ready (skipped for reduced-motion users)
 document.addEventListener('DOMContentLoaded', () => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     new ParticleSystem('particleCanvas');
 });

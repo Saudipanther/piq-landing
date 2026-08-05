@@ -111,32 +111,45 @@ function initSmoothScroll() {
     });
 }
 
-// Form handler
+// Form handler: composes a prefilled email in the visitor's mail app.
+// The site is static (GitHub Pages), so mailto is the delivery path.
 function initFormHandler() {
     const form = document.getElementById('contactForm');
     if (!form) return;
 
+    const CONTACT_EMAIL = 'hello@pantheriq.sa';
+    const isArabic = document.documentElement.lang === 'ar';
+
     form.addEventListener('submit', (e) => {
         e.preventDefault();
-        
+
+        const name = (form.name?.value || '').trim();
+        const email = (form.email?.value || '').trim();
+        const company = (form.company?.value || '').trim();
+        const message = (form.message?.value || '').trim();
+
+        const subject = isArabic
+            ? `طلب تشخيص جاهزية الأتمتة - ${name}${company ? ' - ' + company : ''}`
+            : `Automation readiness request - ${name}${company ? ' - ' + company : ''}`;
+        const bodyLines = isArabic
+            ? [`الاسم: ${name}`, `البريد: ${email}`, `الشركة: ${company || '-'}`, '', message]
+            : [`Name: ${name}`, `Email: ${email}`, `Company: ${company || '-'}`, '', message];
+        const mailto = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyLines.join('\n'))}`;
+
         const btn = form.querySelector('button[type="submit"]');
         const originalText = btn.innerHTML;
-        
-        btn.innerHTML = '<span>Sending...</span>';
+        btn.innerHTML = isArabic ? '<span>جارٍ فتح تطبيق البريد...</span>' : '<span>Opening your email app...</span>';
         btn.disabled = true;
 
-        // Simulate send (replace with actual endpoint)
+        window.location.href = mailto;
+
         setTimeout(() => {
-            btn.innerHTML = '<span>Message Sent ✓</span>';
-            btn.style.background = 'linear-gradient(135deg, #00FF41, #00F5FF)';
-            
+            btn.innerHTML = isArabic ? '<span>أكمل الإرسال من بريدك ✓</span>' : '<span>Finish sending in your email app ✓</span>';
             setTimeout(() => {
                 btn.innerHTML = originalText;
-                btn.style.background = '';
                 btn.disabled = false;
-                form.reset();
-            }, 3000);
-        }, 1500);
+            }, 4000);
+        }, 1200);
     });
 }
 
