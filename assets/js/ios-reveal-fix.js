@@ -1,17 +1,20 @@
 /* PantherIQ - reveal safety net
 Some scroll-reveal blocks (section subtitles, the two extra service
-cards, the Proof dashboard and the About block) are left at opacity 0
+cards, the Proof dashboard and the About block) stay at opacity 0
 because the GSAP timeline does not cover them and the fallback path
-never runs. This observer fades in anything that is still hidden once
-it has been on screen, so no content can stay invisible. */
+never runs. GSAP keeps rewriting inline styles, so the reveal is
+applied through an !important class instead. */
 (function () {
   if (!window.IntersectionObserver) return;
   var EASE = 'cubic-bezier(0.16, 1, 0.3, 1)';
+  var rule = '.ios-forced-reveal { opacity: 1 !important; transform: translateY(0) !important; transition: opacity 0.8s ' + EASE + ', transform 0.8s ' + EASE + ' !important; }';
+  var tag = document.createElement('style');
+  tag.appendChild(document.createTextNode(rule));
+  document.head.appendChild(tag);
   function force(node) {
     if (window.getComputedStyle(node).opacity !== '0') return;
-    node.style.transition = 'opacity 0.8s ' + EASE + ', transform 0.8s ' + EASE;
-    node.style.opacity = '1';
-    node.style.transform = 'translateY(0)';
+    if (node.className.indexOf('ios-forced-reveal') > -1) return;
+    node.className = node.className + ' ios-forced-reveal';
   }
   function watch() {
     var nodes = document.querySelectorAll('.animate-reveal, .animate-fade-up');
