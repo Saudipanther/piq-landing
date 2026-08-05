@@ -1,0 +1,61 @@
+/* Critical fix: ensure all content is above 3D backgrounds */
+html { background: #020510 !important; }
+body { background: transparent !important; }
+#particleCanvas {
+    z-index: 3 !important;
+    pointer-events: none;
+}
+
+#three-bg {
+    display: none !important;
+}
+
+#video-scene-bg {
+    z-index: 0 !important;
+    pointer-events: none;
+}
+
+.cyber-grid {
+    z-index: 0 !important;
+    pointer-events: none;
+}
+
+.hero,
+.section,
+footer {
+    position: relative;
+    z-index: 10 !important;
+    background: transparent !important;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 100 !important;
+}
+
+/* Ensure hero text is always visible */
+.hero-eyebrow,
+.hero-title,
+.hero-subtitle,
+.hero-cta,
+.hero-stats {
+    opacity: 1 !important;
+    transform: none !important;
+}
+
+/* Fix section content visibility - override GSAP initial states */
+.section-tag,
+.section-title,
+.problem-card,
+.service-card,
+.process-step,
+.timeline-line,
+.proof-dashboard,
+.trust-card,
+.about-text,
+.about-metrics .metric,
+.contact-form-wrap,
+.contact-info {
+    opacity: 1 !important;
+    transform: none !important;
+}

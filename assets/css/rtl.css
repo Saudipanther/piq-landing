@@ -1,0 +1,205 @@
+/* ===== PantherIQ RTL Stylesheet ===== */
+/* Arabic font and RTL overrides */
+
+[dir="rtl"] {
+    font-family: 'IBM Plex Sans Arabic', 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+[dir="rtl"] h1,
+[dir="rtl"] h2,
+[dir="rtl"] h3,
+[dir="rtl"] h4,
+[dir="rtl"] h5,
+[dir="rtl"] h6 {
+    font-family: 'IBM Plex Sans Arabic', 'Poppins', sans-serif;
+}
+
+/* Brand name always in Poppins */
+[dir="rtl"] .brand-name {
+    font-family: 'Poppins', sans-serif;
+    unicode-bidi: isolate;
+}
+
+/* Mono elements stay LTR */
+[dir="rtl"] .section-tag,
+[dir="rtl"] .status-text,
+[dir="rtl"] .meta-tag,
+[dir="rtl"] .stat-label,
+[dir="rtl"] .contact-label,
+[dir="rtl"] .footer-legal,
+[dir="rtl"] .eyebrow-text {
+    font-family: 'IBM Plex Sans Arabic', var(--font-mono), monospace;
+}
+
+/* Navigation RTL */
+[dir="rtl"] .nav-inner {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .nav-links {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .nav-link::after {
+    left: auto;
+    right: 0;
+}
+
+/* Hero RTL */
+[dir="rtl"] .hero-content {
+    text-align: right;
+}
+
+[dir="rtl"] .hero-visual {
+    right: auto;
+    left: -5%;
+}
+
+[dir="rtl"] .hero-eyebrow {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .hero-cta {
+    justify-content: flex-start;
+}
+
+[dir="rtl"] .btn-primary svg,
+[dir="rtl"] .btn-ghost svg {
+    transform: rotate(180deg);
+}
+
+/* Stats RTL */
+[dir="rtl"] .hero-stats {
+    flex-direction: row-reverse;
+}
+
+/* Process Timeline RTL */
+[dir="rtl"] .timeline-line {
+    left: auto;
+    right: 28px;
+}
+
+[dir="rtl"] .process-step {
+    flex-direction: row-reverse;
+    text-align: right;
+}
+
+[dir="rtl"] .step-glow {
+    left: auto;
+    right: 10px;
+}
+
+/* Cards RTL */
+[dir="rtl"] .problem-card,
+[dir="rtl"] .trust-card,
+[dir="rtl"] .additional-card {
+    text-align: right;
+}
+
+/* Contact RTL */
+[dir="rtl"] .contact-grid {
+    direction: rtl;
+}
+
+[dir="rtl"] .contact-item {
+    flex-direction: row-reverse;
+    text-align: right;
+}
+
+[dir="rtl"] .form-group input,
+[dir="rtl"] .form-group textarea {
+    text-align: right;
+}
+
+[dir="rtl"] .form-group input[dir="ltr"] {
+    text-align: left;
+}
+
+/* Footer RTL */
+[dir="rtl"] .footer-top {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .footer-links {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .footer-bottom {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .footer-brand {
+    text-align: right;
+}
+
+/* Mobile menu RTL */
+[dir="rtl"] .mobile-link {
+    text-align: right;
+}
+
+/* Section header RTL */
+[dir="rtl"] .section-header {
+    text-align: right;
+}
+
+/* Dashboard RTL */
+[dir="rtl"] .dashboard-nav {
+    flex-direction: row-reverse;
+}
+
+[dir="rtl"] .activity-item {
+    flex-direction: row-reverse;
+}
+
+/* Service card center alignment stays */
+[dir="rtl"] .service-card {
+    text-align: center;
+}
+
+[dir="rtl"] .service-meta {
+    justify-content: center;
+}
+
+/* About metrics RTL */
+[dir="rtl"] .about-content {
+    direction: rtl;
+}
+
+[dir="rtl"] .about-text {
+    text-align: right;
+}
+
+/* Scroll indicator */
+[dir="rtl"] .scroll-indicator span {
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
+    font-size: 11px;
+}
+
+/* Fix numbers display in RTL */
+[dir="rtl"] .stat-number,
+[dir="rtl"] .dash-stat-value,
+[dir="rtl"] .dash-stat-change,
+[dir="rtl"] .step-number {
+    direction: ltr;
+    unicode-bidi: isolate;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Responsive RTL */
+@media (max-width: 768px) {
+    [dir="rtl"] .footer-top,
+    [dir="rtl"] .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    [dir="rtl"] .footer-links {
+        justify-content: center;
+    }
+    
+    [dir="rtl"] .hero-stats {
+        flex-direction: row-reverse;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}

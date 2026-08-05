@@ -1,0 +1,205 @@
+/* ===== PantherIQ Animations ===== */
+
+/* Fade Up Animation */
+.animate-fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.animate-fade-up.visible,
+.hero .animate-fade-up {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Reveal Animation */
+.animate-reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.animate-reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Delays */
+.delay-1 { transition-delay: 0.1s; }
+.delay-2 { transition-delay: 0.2s; }
+.delay-3 { transition-delay: 0.3s; }
+.delay-4 { transition-delay: 0.4s; }
+.delay-5 { transition-delay: 0.5s; }
+
+/* Floating Animation */
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+.float-animation {
+    animation: float 4s ease-in-out infinite;
+}
+
+/* Gradient Shift */
+@keyframes gradient-shift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.gradient-animate {
+    background-size: 200% 200%;
+    animation: gradient-shift 5s ease infinite;
+}
+
+/* Radar Sweep */
+@keyframes radar-sweep {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Glitch Effect */
+@keyframes glitch {
+    0% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(-2px, -2px); }
+    60% { transform: translate(2px, 2px); }
+    80% { transform: translate(2px, -2px); }
+    100% { transform: translate(0); }
+}
+
+.glitch-hover:hover {
+    animation: glitch 0.3s ease;
+}
+
+/* Typing Cursor */
+@keyframes blink-cursor {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+.typing-cursor::after {
+    content: '█';
+    animation: blink-cursor 1s infinite;
+    color: var(--cyan);
+}
+
+/* Scale In */
+@keyframes scale-in {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+/* Neon Flicker */
+@keyframes neon-flicker {
+    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        text-shadow: 0 0 4px var(--cyan), 0 0 11px var(--cyan), 0 0 19px var(--cyan);
+    }
+    20%, 24%, 55% {
+        text-shadow: none;
+    }
+}
+
+/* Scan Line */
+@keyframes scan-line {
+    0% { top: -100%; }
+    100% { top: 100%; }
+}
+
+.scan-effect::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+    opacity: 0.3;
+    animation: scan-line 4s linear infinite;
+}
+
+/* Particle Drift */
+@keyframes particle-drift {
+    0% { transform: translate(0, 0) rotate(0deg); opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { transform: translate(100px, -200px) rotate(360deg); opacity: 0; }
+}
+
+/* Border Glow Animation */
+@keyframes border-glow {
+    0%, 100% { border-color: rgba(0, 245, 255, 0.1); }
+    50% { border-color: rgba(0, 245, 255, 0.4); }
+}
+
+.border-glow-animate {
+    animation: border-glow 3s ease infinite;
+}
+
+/* Rotate Slow */
+@keyframes rotate-slow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Morph Shape */
+@keyframes morph {
+    0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+    25% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+    50% { border-radius: 50% 60% 30% 60% / 30% 60% 70% 40%; }
+    75% { border-radius: 60% 40% 60% 30% / 60% 30% 40% 70%; }
+}
+
+/* Data Stream */
+@keyframes data-stream {
+    0% { transform: translateY(-100%); opacity: 0; }
+    10% { opacity: 0.5; }
+    90% { opacity: 0.5; }
+    100% { transform: translateY(100vh); opacity: 0; }
+}
+
+/* RTL Support Animations */
+[dir="rtl"] .animate-fade-up {
+    transform: translateY(30px);
+}
+
+[dir="rtl"] .animate-reveal {
+    transform: translateY(40px);
+}
+
+[dir="rtl"] .animate-fade-up.visible,
+[dir="rtl"] .animate-reveal.visible {
+    transform: translateY(0);
+}
+
+/* Smooth Page Transitions */
+.page-transition-enter {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.page-transition-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.5s ease;
+}
+
+/* Counter Animation */
+.count-up {
+    display: inline-block;
+}
+
+/* Magnetic Button Effect */
+.magnetic-btn {
+    transition: transform 0.3s ease;
+}
+
+/* Parallax */
+.parallax-slow {
+    will-change: transform;
+}
+
+.parallax-fast {
+    will-change: transform;
+}
