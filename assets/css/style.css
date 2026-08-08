@@ -958,6 +958,10 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 1.5rem;
     font-weight: 700;
     margin-bottom: 4px;
+    /* A gradient-clipped word that overflows its box paints invisible
+       past the edge instead of spilling over in solid color — wrap
+       instead of losing part of a glyph if the column runs narrow */
+    overflow-wrap: anywhere;
 }
 
 .metric-label {
