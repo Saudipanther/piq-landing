@@ -246,25 +246,6 @@ section[id] { scroll-margin-top: 110px; }
     }
 }
 
-/* ---------- 9. Scene location indicator ---------- */
-#scene-location {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-#scene-location::before {
-    content: "";
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #00F5FF;
-    box-shadow: 0 0 10px rgba(0, 245, 255, 0.8);
-    flex: 0 0 auto;
-}
-@media (prefers-reduced-motion: no-preference) {
-    #scene-location::before { animation: piqDotPulse 2.4s ease-in-out infinite; }
-}
-
 /* ---------- 10. Contact form ---------- */
 .form-group input:focus,
 .form-group textarea:focus {
@@ -443,13 +424,6 @@ section[id] { scroll-margin-top: 110px; }
 /* ---------- 15. Small screens ---------- */
 /* 860px matches the ios-experience tab bar breakpoint */
 @media (max-width: 860px) {
-    #scene-location {
-        bottom: calc(92px + env(safe-area-inset-bottom, 0px)) !important;
-        max-width: min(72vw, 320px);
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
     /* 16px floor stops iOS zoom-on-focus */
     .form-group input,
     .form-group textarea { font-size: 16px !important; }

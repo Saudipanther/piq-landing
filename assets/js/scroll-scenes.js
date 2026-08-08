@@ -20,8 +20,7 @@ class ScrollSceneController {
         this.activeVideo = 'A';
         this.transitioning = false;
         this.container = null;
-        this.locationIndicator = null;
-        
+
         this.init();
     }
 
@@ -60,28 +59,10 @@ class ScrollSceneController {
             z-index: 1;
         `;
 
-        // Location indicator
-        this.locationIndicator = document.createElement('div');
-        this.locationIndicator.id = 'scene-location';
-        const indicatorFont = this.isArabic
-            ? "'Readex Pro', 'IBM Plex Sans Arabic', sans-serif"
-            : "'Space Mono', monospace";
-        const indicatorSpacing = this.isArabic ? '0' : '1px';
-        this.locationIndicator.style.cssText = `
-            position: fixed; bottom: 30px; ${this.isArabic ? 'left' : 'right'}: 30px; z-index: 1000;
-            background: rgba(0,245,255,0.1); border: 1px solid rgba(0,245,255,0.3);
-            backdrop-filter: blur(10px); border-radius: 8px; padding: 8px 16px;
-            font-family: ${indicatorFont}; font-size: ${this.isArabic ? '13px' : '11px'}; color: #00F5FF;
-            letter-spacing: ${indicatorSpacing}; text-transform: uppercase;
-            transition: all 0.5s ease; pointer-events: none;
-        `;
-        this.locationIndicator.textContent = this.scenes[0].label;
-
         this.container.appendChild(this.videoA);
         this.container.appendChild(this.videoB);
         this.container.appendChild(overlay);
         document.body.prepend(this.container);
-        document.body.appendChild(this.locationIndicator);
 
         // Load first scene
         this.videoA.src = this.scenes[0].video;
@@ -163,13 +144,6 @@ class ScrollSceneController {
         // Crossfade
         incomingVideo.style.opacity = '1';
         outgoingVideo.style.opacity = '0';
-
-        // Update location indicator
-        this.locationIndicator.style.opacity = '0';
-        setTimeout(() => {
-            this.locationIndicator.textContent = this.scenes[index].label;
-            this.locationIndicator.style.opacity = '1';
-        }, 300);
 
         // Switch active
         this.activeVideo = this.activeVideo === 'A' ? 'B' : 'A';

@@ -102,8 +102,7 @@
    the moving full-viewport layers go away entirely. */
 html.fluid-reduce #video-scene-bg,
 html.fluid-reduce #particleCanvas,
-html.fluid-reduce #floating-blocks,
-html.fluid-reduce #scene-location {
+html.fluid-reduce #floating-blocks {
     display: none !important;
 }
 @media (prefers-reduced-motion: reduce) {
@@ -124,8 +123,7 @@ html.fluid-reduce #scene-location {
     .nav-inner,
     .nav.scrolled .nav-inner,
     .mobile-menu,
-    .ios-tabbar,
-    #scene-location {
+    .ios-tabbar {
         background: #0D1117 !important;
         -webkit-backdrop-filter: none !important;
         backdrop-filter: none !important;
