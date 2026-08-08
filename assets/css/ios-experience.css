@@ -56,7 +56,7 @@ html { scroll-behavior: smooth; }
 .activity-item { border-radius: 14px !important; }
 
 /* ---------- About metrics as widgets ---------- */
-.about-metrics { display: grid !important; grid-template-columns: repeat(3, minmax(auto, 1fr)) !important; gap: 12px !important; }
+.about-metrics { display: grid !important; grid-template-columns: repeat(3, minmax(130px, 1fr)) !important; gap: 12px !important; }
 .metric { padding: 18px !important; background: rgba(255, 255, 255, 0.055) !important; border: 1px solid var(--ios-hairline) !important; -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px); display: flex !important; flex-direction: column; gap: 4px; }
 
 /* ---------- iOS pill buttons with press feedback ---------- */
