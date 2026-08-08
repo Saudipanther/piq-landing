@@ -22,7 +22,6 @@
 
 /* Mono elements stay LTR */
 [dir="rtl"] .section-tag,
-[dir="rtl"] .status-text,
 [dir="rtl"] .meta-tag,
 [dir="rtl"] .stat-label,
 [dir="rtl"] .contact-label,

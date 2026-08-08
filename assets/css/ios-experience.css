@@ -25,7 +25,6 @@ html { scroll-behavior: smooth; }
 .nav-link:hover { background: var(--ios-fill); }
 .nav-link:active { transform: scale(0.93); }
 .nav-link.lang-switch { background: var(--ios-fill-2) !important; border: 1px solid var(--ios-hairline) !important; border-radius: 999px !important; font-weight: 600 !important; }
-.nav-status { padding: 6px 12px; border-radius: 999px; background: var(--ios-fill); border: 1px solid var(--ios-hairline); }
 
 /* ---------- iOS type rhythm (same brand fonts, tighter tracking) ---------- */
 .hero-title { letter-spacing: -0.045em !important; line-height: 1 !important; }
@@ -104,7 +103,6 @@ html { scroll-behavior: smooth; }
 .hero-stats { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
 .hero-stats .stat-item:last-of-type { grid-column: span 2; }
 .about-metrics { grid-template-columns: 1fr !important; }
-.nav-status { display: none !important; }
 }
 @media (prefers-reduced-motion: reduce) {
   .problem-card, .service-card, .trust-card, .additional-card, .stat-item, .metric, .dash-stat, .btn-primary, .btn-ghost { transition-duration: 0.01ms !important; }
