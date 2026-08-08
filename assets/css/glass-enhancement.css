@@ -58,10 +58,17 @@
     }
 }
 
-/* Darken the Riyadh scene video background ~10% for stronger text contrast
+/* Darken the Riyadh scene video background for stronger text contrast
    (overrides the JS-generated gradient overlay on #video-scene-bg) */
 #video-scene-bg > div {
-    background: linear-gradient(180deg, rgba(2, 5, 16, 0.6) 0%, rgba(2, 5, 16, 0.4) 50%, rgba(2, 5, 16, 0.7) 100%) !important;
+    background: linear-gradient(180deg, rgba(2, 5, 16, 0.7) 0%, rgba(2, 5, 16, 0.5) 50%, rgba(2, 5, 16, 0.78) 100%) !important;
+}
+
+/* Soften the video itself; scaled up slightly so the blur doesn't
+   reveal the edge of the frame */
+#video-scene-bg video {
+    filter: blur(4px) !important;
+    transform: translate(-50%, -50%) scale(1.08) !important;
 }
 
 /* Tuned glass widgets over video: blurred + tinted, but the video stays
