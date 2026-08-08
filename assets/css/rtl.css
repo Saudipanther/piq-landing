@@ -36,6 +36,11 @@
     flex-direction: row-reverse;
 }
 
+/* Keep the icon before the wordmark (mirrors the footer-lockup fix) */
+[dir="rtl"] .nav-logo {
+    flex-direction: row;
+}
+
 [dir="rtl"] .nav-links {
     flex-direction: row-reverse;
 }
