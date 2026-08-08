@@ -89,13 +89,11 @@ body {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-}
-
-/* .metric sits behind a backdrop-filter blur, which can make this
-   background-clip:text glyph render with chunks missing; its own
-   compositing layer avoids that. Scoped to just this case (not every
-   .gradient-text) to keep the will-change layer count in check. */
-.metric-value.gradient-text {
+    /* The fixed, blurred video background sits behind every section, and
+       compositing background-clip:text over any blurred/filtered layer can
+       make Chromium paint glyphs with chunks missing. Its own compositing
+       layer avoids that; this is page-wide (not just card-scoped) because
+       the video layer is too. */
     transform: translateZ(0);
     will-change: transform;
 }
