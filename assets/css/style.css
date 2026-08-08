@@ -91,6 +91,15 @@ body {
     background-clip: text;
 }
 
+/* .metric sits behind a backdrop-filter blur, which can make this
+   background-clip:text glyph render with chunks missing; its own
+   compositing layer avoids that. Scoped to just this case (not every
+   .gradient-text) to keep the will-change layer count in check. */
+.metric-value.gradient-text {
+    transform: translateZ(0);
+    will-change: transform;
+}
+
 h1, h2, h3, h4, h5, h6 {
     font-weight: 600;
     line-height: 1.2;
