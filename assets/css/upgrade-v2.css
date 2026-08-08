@@ -65,7 +65,7 @@ section[id] { scroll-margin-top: 110px; }
     gap: 10px;
 }
 .footer-lockup img { display: block; }
-[dir="rtl"] .footer-brand .footer-lockup { flex-direction: row; }
+[dir="rtl"] .footer-brand .footer-lockup { flex-direction: row-reverse; }
 
 .nav-link { position: relative; }
 .nav-link:not(.lang-switch)::after {

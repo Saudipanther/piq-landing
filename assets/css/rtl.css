@@ -36,9 +36,9 @@
     flex-direction: row-reverse;
 }
 
-/* Keep the icon before the wordmark (mirrors the footer-lockup fix) */
+/* Keep the icon before the wordmark */
 [dir="rtl"] .nav-logo {
-    flex-direction: row;
+    flex-direction: row-reverse;
 }
 
 [dir="rtl"] .nav-links {
